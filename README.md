@@ -4,16 +4,18 @@ Hospital internal system for booking pacients with their doctors. A pacient can 
 
 ## Schema
 
+![relational schema](/schema.png)
+
 ## Business
 
 Schedule an appointment
 
 Cancel an appointment
 
-Cancel all appointments in given doctor's day
+Cancel all appointments in a given doctor's day
 
 ## Complex query
 
-Tell which days does the doctor have at least one appointment
+Show dates when doctor has at least one appointment
 
 
