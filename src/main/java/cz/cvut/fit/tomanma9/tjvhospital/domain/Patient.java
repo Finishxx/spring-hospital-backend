@@ -1,17 +1,27 @@
-package cz.cvut.fit.tjv.hospital.domain;
+package cz.cvut.fit.tomanma9.tjvhospital.domain;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-public class Pacient implements DomainEntity<Long> {
-
+@Entity
+public class Patient implements DomainEntity<Long> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String name;
     private LocalDateTime birthdate;
     private String emailAddress;
     private String phoneNumber;
+    @ManyToMany(mappedBy = "patients")
+    private Set<Doctor> doctors;
+    @OneToMany
+    @JoinColumn(name = "patient")
+    private final Set<Appointment> appointments = new HashSet<>();
 
-    public Pacient(Long id, String name, LocalDateTime birthdate, String emailAddress, String phoneNumber) {
+    public Patient(Long id, String name, LocalDateTime birthdate, String emailAddress, String phoneNumber) {
         this.id = id;
         this.name = name;
         this.birthdate = birthdate;
@@ -19,7 +29,9 @@ public class Pacient implements DomainEntity<Long> {
         this.phoneNumber = phoneNumber;
     }
 
+    public Patient() {
 
+    }
 
 
     @Override

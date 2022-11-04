@@ -1,24 +1,35 @@
-package cz.cvut.fit.tjv.hospital.domain;
+package cz.cvut.fit.tomanma9.tjvhospital.domain;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
 public class Appointment implements DomainEntity<Long> {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Pacient pacient;
+    @MapsId
+    @ManyToOne
+    private Patient patient;
+    @MapsId
+    @ManyToOne
     private Doctor doctor;
-
     private LocalDateTime from;
     private LocalDateTime to;
 
 
 
-    public Appointment(Long id, Pacient pacient, Doctor doctor, LocalDateTime from, LocalDateTime to) {
+    public Appointment(Long id, Patient patient, Doctor doctor, LocalDateTime from, LocalDateTime to) {
         this.id = id;
-        this.pacient = pacient;
+        this.patient = patient;
         this.doctor = doctor;
         this.from = from;
         this.to = to;
+    }
+
+    public Appointment() {
+
     }
 
 
@@ -26,8 +37,8 @@ public class Appointment implements DomainEntity<Long> {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public Pacient getPacient() { return pacient; }
-    public void setPacient(Pacient pacient) { this.pacient = pacient; }
+    public Patient getPacient() { return patient; }
+    public void setPacient(Patient patient) { this.patient = patient; }
 
     public Doctor getDoctor() { return doctor; }
     public void setDoctor(Doctor doctor) { this.doctor = doctor; }

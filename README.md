@@ -1,6 +1,6 @@
 # tjv-hospital
 
-Hospital internal system for booking pacients with their doctors. A pacient can only be booked to his own doctor only if the doctor is free at that time.
+Hospital internal system for booking pacients with their doctors. A patient can only be booked to his own doctor only if the doctor is free at that time.
 
 ## Schema
 

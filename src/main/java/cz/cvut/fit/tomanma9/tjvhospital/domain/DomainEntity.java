@@ -1,4 +1,4 @@
-package cz.cvut.fit.tjv.hospital.domain;
+package cz.cvut.fit.tomanma9.tjvhospital.domain;
 
 public interface DomainEntity<ID> {
 
