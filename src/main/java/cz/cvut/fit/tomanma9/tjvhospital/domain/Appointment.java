@@ -2,6 +2,7 @@ package cz.cvut.fit.tomanma9.tjvhospital.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 public class Appointment implements DomainEntity<Long> {
@@ -18,8 +19,6 @@ public class Appointment implements DomainEntity<Long> {
     private LocalDateTime from;
     private LocalDateTime to;
 
-
-
     public Appointment(Long id, Patient patient, Doctor doctor, LocalDateTime from, LocalDateTime to) {
         this.id = id;
         this.patient = patient;
@@ -28,10 +27,7 @@ public class Appointment implements DomainEntity<Long> {
         this.to = to;
     }
 
-    public Appointment() {
-
-    }
-
+    public Appointment() {}
 
     @Override
     public Long getId() { return id; }
@@ -48,4 +44,17 @@ public class Appointment implements DomainEntity<Long> {
 
     public LocalDateTime getTo() { return to; }
     public void setTo(LocalDateTime to) { this.to = to; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Appointment that = (Appointment) o;
+        return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }

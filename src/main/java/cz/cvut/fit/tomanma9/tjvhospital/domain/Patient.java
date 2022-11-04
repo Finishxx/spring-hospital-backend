@@ -2,9 +2,7 @@ package cz.cvut.fit.tomanma9.tjvhospital.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Patient implements DomainEntity<Long> {
@@ -15,10 +13,11 @@ public class Patient implements DomainEntity<Long> {
     private LocalDateTime birthdate;
     private String emailAddress;
     private String phoneNumber;
+
     @ManyToMany(mappedBy = "patients")
-    private Set<Doctor> doctors;
-    @OneToMany
-    @JoinColumn(name = "patient")
+    private Set<Doctor> doctors = new HashSet<>();
+
+    @OneToMany(mappedBy = "patient")
     private final Set<Appointment> appointments = new HashSet<>();
 
     public Patient(Long id, String name, LocalDateTime birthdate, String emailAddress, String phoneNumber) {
@@ -28,11 +27,7 @@ public class Patient implements DomainEntity<Long> {
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
     }
-
-    public Patient() {
-
-    }
-
+    public Patient() {}
 
     @Override
     public Long getId() { return id; }
@@ -49,4 +44,20 @@ public class Patient implements DomainEntity<Long> {
 
     public String getPhoneNumber() { return phoneNumber; }
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+    // unmodifiable collection to prevent losing sync with database entity
+    public Collection<Doctor> getDoctors() { return Collections.unmodifiableCollection(doctors); }
+    public Collection<Appointment> getAppointments() { return Collections.unmodifiableCollection(appointments); }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Patient patient = (Patient) o;
+        return Objects.equals(getId(), patient.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }
