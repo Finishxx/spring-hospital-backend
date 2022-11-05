@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 public class DoctorService extends AbstractCrudService<Doctor, Long> {
 
     // automatically creates and manages appropriate repository bcs of name
-    protected DoctorService(DoctorRepository repository) {
+    public DoctorService(DoctorRepository repository, AppointmentService appointmentService) {
         super(repository);
     }
 }
