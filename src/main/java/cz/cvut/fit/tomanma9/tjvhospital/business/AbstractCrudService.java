@@ -31,4 +31,7 @@ public abstract class AbstractCrudService <T extends DomainEntity<K>, K> {
 
     public void deleteById(K id) { repository.deleteById( id );}
 
+    public void deleteAllyById(Collection<K> keys) { repository.deleteAllById(keys); }
+
+
 }
