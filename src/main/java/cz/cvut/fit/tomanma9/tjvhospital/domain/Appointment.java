@@ -10,10 +10,8 @@ public class Appointment implements DomainEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @MapsId
     @ManyToOne
     private Patient patient;
-    @MapsId
     @ManyToOne
     private Doctor doctor;
     private LocalDateTime from;
