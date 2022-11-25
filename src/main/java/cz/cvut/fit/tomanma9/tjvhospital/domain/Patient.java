@@ -15,7 +15,7 @@ public class Patient implements DomainEntity<Long> {
     private String phoneNumber;
 
     @ManyToMany(mappedBy = "patients")
-    private Set<Doctor> doctors = new HashSet<>();
+    private final Set<Doctor> doctors = new HashSet<>();
 
     @OneToMany(mappedBy = "patient")
     private final Set<Appointment> appointments = new HashSet<>();
@@ -28,6 +28,8 @@ public class Patient implements DomainEntity<Long> {
         this.phoneNumber = phoneNumber;
     }
     public Patient() {}
+
+
 
     @Override
     public Long getId() { return id; }

@@ -6,49 +6,54 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collection;
 import java.util.NoSuchElementException;
+import java.util.function.Function;
+import java.util.stream.StreamSupport;
 
 
-// typing as E for entity
-public abstract class AbstractCrudController<E extends DomainEntity<ID>, ID > {
+// typing as E for entity, typing D for Dto
+public abstract class AbstractCrudController<E extends DomainEntity<ID>, D, ID > {
 
     protected AbstractCrudService<E, ID> service;
+    protected Function<E, D> toDtoConverter;
+    protected Function<D, E> toEntityConverter;
 
-    public AbstractCrudController(AbstractCrudService<E, ID> service) {
+    public AbstractCrudController(AbstractCrudService<E, ID> service, Function<E, D> toDtoConverter, Function<D, E> toEntityConverter) {
+        this.toDtoConverter = toDtoConverter;
+        this.toEntityConverter = toEntityConverter;
         this.service = service;
     }
 
     @PostMapping
-    public E create(@RequestBody E e) { // puts body of html request into e
-        return service.create( e );
+    // We receive Dto and we send out Dto, so we need to convert both
+    public D create(@RequestBody D d) { // puts body of html request into e
+        return toDtoConverter.apply(service.create(toEntityConverter.apply(d)));
     }
 
     @GetMapping
-    public Iterable<E> readAll() {
-        return service.readAll();
+    // credits to demo-public for this stream
+    public Iterable<D> readAll() {
+        return StreamSupport.stream(service.readAll().spliterator(), false).map(toDtoConverter).toList();
     }
 
     // Why do we handle exception here when working with id and not when put/delete?
     // Because when we put/delete we must have first get-ed id :D
     @GetMapping( "/{id}")
-    public E readOne(@PathVariable ID id) {
+    public D readOne(@PathVariable ID id) {
         try {
-            return service.readById(id).get();
+            return toDtoConverter.apply(service.readById(id).get());
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("/{id}")
-    public void update(@RequestBody E e, @PathVariable ID id) {
-        service.update(e);
+    public void update(@RequestBody D d, @PathVariable ID id) {
+        service.update(toEntityConverter.apply(d));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable ID id) {
-        service.deleteById(id);
-    }
+    public void delete(@PathVariable ID id) {service.deleteById(id);}
 
 
 }
