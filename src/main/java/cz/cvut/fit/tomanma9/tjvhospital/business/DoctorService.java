@@ -5,12 +5,14 @@ import cz.cvut.fit.tomanma9.tjvhospital.dao.DoctorRepository;
 import cz.cvut.fit.tomanma9.tjvhospital.domain.Appointment;
 import cz.cvut.fit.tomanma9.tjvhospital.domain.Doctor;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class DoctorService extends AbstractCrudService<Doctor, Long> {
 
     AppointmentService appointmentService;
@@ -26,7 +28,7 @@ public class DoctorService extends AbstractCrudService<Doctor, Long> {
         if (doctorOptional.isEmpty())
             return;
         Doctor doctor = doctorOptional.get();
-        List<Long> appointments =doctor.getAppointments().stream()
+        List<Long> appointments = doctor.getAppointments().stream()
                 .filter( appointment -> appointment.getFrom().toLocalDate().equals(date) )
                 .map(Appointment::getId) // thank you IDEA <3
                 .toList();
