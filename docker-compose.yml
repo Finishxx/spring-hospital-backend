@@ -1,0 +1,24 @@
+version: '3'
+services:
+
+  postgres-server:
+    build: src/postgres-server/
+    container_name: postgres-server
+    ports:
+      - 5432:5432
+    environment: # variables which postgres docker image uses later on
+      - POSTGRES_DB:hospital
+      - POSTGRES_USER:hospital
+      - POSTGRES_PASSWORD:hospital # maybe not the best option security-wise
+
+  hospital-backend:
+    build: .
+    container_name: hospital-backend
+    environment:
+      - DB_SERVER=postgres_server # sets variable in shell(=), used in hospital-backend Dockerfile
+    ports:
+      - 8080:8080
+    links:
+      - postgres-server # we depend on postgresql-server
+
+# inspiration from: https://wkrzywiec.medium.com/how-to-run-database-backend-and-frontend-in-a-single-click-with-docker-compose-4bcda66f6de
