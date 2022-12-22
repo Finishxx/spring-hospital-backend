@@ -1,14 +1,11 @@
 package cz.cvut.fit.tomanma9.tjvhospital.business;
 
-import cz.cvut.fit.tomanma9.tjvhospital.dao.AppointmentRepository;
 import cz.cvut.fit.tomanma9.tjvhospital.dao.DoctorRepository;
 import cz.cvut.fit.tomanma9.tjvhospital.domain.Appointment;
 import cz.cvut.fit.tomanma9.tjvhospital.domain.Doctor;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +20,7 @@ public class DoctorService extends AbstractCrudService<Doctor, Long> {
         this.appointmentService = appointmentService;
     }
 
+    // needs to be removed and functionality moved into FrontEnd
     public void cancelAllAppointmentsByDate(Long doctorId, LocalDate date) {
         Optional<Doctor> doctorOptional = repository.findById(doctorId);
         if (doctorOptional.isEmpty())

@@ -3,18 +3,20 @@ package cz.cvut.fit.tomanma9.tjvhospital.domain;
 import javax.persistence.*;
 import java.util.*;
 
-@Entity
+@Entity(name = "doctor")
 public class Doctor implements DomainEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_doctor")
     private Long id;
     private String name;
     private String emailAddress;
     private String phoneNumber;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            joinColumns = @JoinColumn(name = "id_doctor"),
-            inverseJoinColumns = @JoinColumn(name = "id_patient")
+            joinColumns = @JoinColumn(name = "id_patient"),
+            inverseJoinColumns = @JoinColumn(name = "id_doctor"),
+            name = "doctor_patient"
     )
     private final Set<Patient> patients = new HashSet<>();
     @OneToMany

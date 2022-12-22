@@ -4,16 +4,18 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@Entity
+@Entity(name = "patient")
 public class Patient implements DomainEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_patient")
     private Long id;
     private String name;
     private LocalDateTime birthdate;
     private String emailAddress;
     private String phoneNumber;
 
+    // mapped by is looking for Java attribute
     @ManyToMany(mappedBy = "patients")
     private final Set<Doctor> doctors = new HashSet<>();
 

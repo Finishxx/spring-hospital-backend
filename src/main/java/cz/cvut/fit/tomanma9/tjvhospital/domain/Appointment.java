@@ -4,11 +4,12 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "appointment")
 public class Appointment implements DomainEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_appointment")
     private Long id;
     @ManyToOne
     private Patient patient;

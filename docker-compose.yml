@@ -20,5 +20,7 @@ services:
       - 8080:8080
     links:
       - postgres-server # we depend on postgresql-server
+      
+      # TODO: need to add networks and "links" does not do what I thought it did
 
 # inspiration from: https://wkrzywiec.medium.com/how-to-run-database-backend-and-frontend-in-a-single-click-with-docker-compose-4bcda66f6de
