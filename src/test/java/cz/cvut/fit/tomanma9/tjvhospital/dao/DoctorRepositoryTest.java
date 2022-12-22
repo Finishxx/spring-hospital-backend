@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -26,10 +27,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // inspiration from: https://www.testcontainers.org/features/creating_images/
 // HEAVY inspiration from https://ajayiyengar.com/2020/05/18/integration-testing-using-testcontainers-in-a-spring-boot-2-jpa-application/
+// basic CRUD test
 @DataJpaTest
 @AutoConfigureTestDatabase( replace = AutoConfigureTestDatabase.Replace.NONE )
 @ContextConfiguration(initializers = { DoctorRepositoryTest.PropertiesInitializer.class })
 @Sql({ "classpath:create-script.sql" })
+@ActiveProfiles("dbtest")
 public class DoctorRepositoryTest extends AbstractPostgresContainerBaseTest {
 
     @Autowired
@@ -58,14 +61,20 @@ public class DoctorRepositoryTest extends AbstractPostgresContainerBaseTest {
         assertTrue(foundDoctorOptional2.isPresent());
 
         Doctor foundDoctor1 = foundDoctorOptional1.get();
-        Doctor foundDoctor2 = foundDoctorOptional1.get();
+        Doctor foundDoctor2 = foundDoctorOptional2.get();
 
         assertEquals(doctor1, foundDoctor1);
         assertEquals(doctor2, foundDoctor2);
+        // cleanup
+        doctorRepository.deleteById(doctor1.getId());
+        doctorRepository.deleteById(doctor2.getId());
+
+        assertEquals(0, doctorRepository.findAll().size());
     }
 
     @Test
     public void saveDoctorsAndFindAll() {
+
         doctorRepository.save(doctor1);
         doctorRepository.save(doctor2);
 
@@ -75,11 +84,16 @@ public class DoctorRepositoryTest extends AbstractPostgresContainerBaseTest {
 
         assertTrue(doctors.contains(doctor1));
         assertTrue(doctors.contains(doctor2));
+
+        // cleanup
+        doctorRepository.deleteById(doctor1.getId());
+        doctorRepository.deleteById(doctor2.getId());
+
+        assertEquals(0, doctorRepository.findAll().size());
     }
 
     @Test
     public void saveDoctorsAndDelete() {
-        System.out.println(postgresContainer.getLogs());
         doctorRepository.save(doctor1);
         doctorRepository.save(doctor2);
 
@@ -93,9 +107,20 @@ public class DoctorRepositoryTest extends AbstractPostgresContainerBaseTest {
         doctorRepository.deleteById(doctor2.getId());
         Optional<Doctor> deletedDoctor2 = doctorRepository.findById(doctor2.getId());
         assertTrue(deletedDoctor2.isEmpty());
-
     }
 
+    public void updateDoctor() {
+        doctorRepository.save(doctor1);
 
+        Doctor newDoctor = new Doctor(doctor1.getId(), "Bartoš", "bartos@hospital.cz", "333-333-333");
+        doctorRepository.save(newDoctor);
+
+        Optional<Doctor> foundDoctor = doctorRepository.findById(doctor1.getId());
+
+        assertTrue(foundDoctor.isPresent());
+        assertEquals(foundDoctor.get(), newDoctor);
+
+        doctorRepository.deleteById(doctor1.getId());
+    }
 
 }

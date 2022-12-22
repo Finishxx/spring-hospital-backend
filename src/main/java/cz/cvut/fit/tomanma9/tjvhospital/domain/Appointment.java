@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Appointment implements DomainEntity<Long> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_appointment")
     private Long id;
     @ManyToOne

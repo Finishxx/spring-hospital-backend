@@ -6,7 +6,7 @@ import java.util.*;
 @Entity(name = "doctor")
 public class Doctor implements DomainEntity<Long> {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_doctor")
     private Long id;
     private String name;
@@ -14,9 +14,9 @@ public class Doctor implements DomainEntity<Long> {
     private String phoneNumber;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
+            name = "doctor_patient", // When name is last it does not work... ORDER MATTERS? EXCUSE ME???
             joinColumns = @JoinColumn(name = "id_patient"),
-            inverseJoinColumns = @JoinColumn(name = "id_doctor"),
-            name = "doctor_patient"
+            inverseJoinColumns = @JoinColumn(name = "id_doctor")
     )
     private final Set<Patient> patients = new HashSet<>();
     @OneToMany

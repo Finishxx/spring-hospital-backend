@@ -19,13 +19,8 @@ public abstract class AbstractPostgresContainerBaseTest {
                 .withDatabaseName("hospital")
                 .withUsername("hospital")
                 .withPassword("hospital");
-        postgresContainer.withInitScript("create-script.sql");
-                //.withLogConsumer();
-                //.withCopyFileToContainer(MountableFile.forClasspathResource("create-script.sql"), "/docker-entrypoint-initdb.d/");
-        System.out.println(postgresContainer.getLogs());
+
         postgresContainer.start();
-        System.out.println("\n\nAFTERSTAERT\n\n");
-        System.out.println(postgresContainer.getLogs());
     }
 
     static class PropertiesInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {

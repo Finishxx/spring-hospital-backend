@@ -7,7 +7,7 @@ import java.util.*;
 @Entity(name = "patient")
 public class Patient implements DomainEntity<Long> {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_patient")
     private Long id;
     private String name;
