@@ -12,9 +12,10 @@ public class AppointmentDto {
     private Long patient;
     private Long doctor;
     // https://www.baeldung.com/spring-boot-formatting-json-dates
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    // format from https://stackoverflow.com/questions/4032967/json-date-to-java-date
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSX")
     private LocalDateTime from;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSX")
     private LocalDateTime to;
 
     public Long getId() {
