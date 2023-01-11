@@ -16,7 +16,7 @@ public class AppointmentToDtoConverter implements Function<Appointment, Appointm
         AppointmentDto dto = new AppointmentDto();
 
         dto.setId(appointment.getId());
-        dto.setPatient(appointment.getPacient().getId());
+        dto.setPatient(appointment.getPatient().getId());
         dto.setDoctor(appointment.getDoctor().getId());
         dto.setFrom(appointment.getFrom());
         dto.setTo(appointment.getTo());

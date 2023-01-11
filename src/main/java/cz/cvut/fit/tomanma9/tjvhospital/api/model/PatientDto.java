@@ -2,6 +2,7 @@ package cz.cvut.fit.tomanma9.tjvhospital.api.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
@@ -12,8 +13,8 @@ public class PatientDto {
     private Long id;
     private String name;
     // https://www.baeldung.com/spring-boot-formatting-json-dates
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime birthdate;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate birthdate;
     private String emailAddress;
     private String phoneNumber;
 
@@ -37,11 +38,11 @@ public class PatientDto {
         this.name = name;
     }
 
-    public LocalDateTime getBirthdate() {
+    public LocalDate getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(LocalDateTime birthdate) {
+    public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 

@@ -44,6 +44,7 @@ public class Doctor implements DomainEntity<Long> {
     public String getPhoneNumber() { return phoneNumber; }
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
     // return umodifiable (const) collections so we don't lose sync
+    // TODO: above makes 0 sense and should not be const
     public Collection<Patient> getPatients() { return Collections.unmodifiableCollection(patients); }
     public Collection<Appointment> getAppointments() { return Collections.unmodifiableCollection(appointments); }
 

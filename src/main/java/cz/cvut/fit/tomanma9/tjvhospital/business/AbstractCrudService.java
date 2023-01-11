@@ -29,9 +29,14 @@ public abstract class AbstractCrudService <T extends DomainEntity<K>, K> {
         return repository.save(entity);
     }
 
-    public void deleteById(K id) { repository.deleteById( id );}
+    public void deleteById(K id) {
+        if (!repository.existsById(id))
+            throw new EntityNotFoundException();
+        else
+            repository.deleteById(id);
+    }
 
-    public void deleteAllyById(Collection<K> keys) { repository.deleteAllById(keys); }
+        public void deleteAllyById(Collection<K> keys) { repository.deleteAllById(keys); }
 
 
 }

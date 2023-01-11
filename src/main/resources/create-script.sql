@@ -9,8 +9,8 @@ CREATE TABLE appointment (
                              id_appointment SERIAL NOT NULL,
                              id_patient INTEGER NOT NULL,
                              id_doctor INTEGER NOT NULL,
-                             "from" TIMESTAMP NOT NULL,
-                             "to" TIMESTAMP NOT NULL
+                             time_from TIMESTAMP NOT NULL,
+                             time_to TIMESTAMP NOT NULL
 );
 ALTER TABLE appointment ADD CONSTRAINT pk_appointment PRIMARY KEY (id_appointment);
 

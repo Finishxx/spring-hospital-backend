@@ -1,8 +1,10 @@
 package cz.cvut.fit.tomanma9.tjvhospital.dao;
 
 import cz.cvut.fit.tomanma9.tjvhospital.domain.Doctor;
+import cz.cvut.fit.tomanma9.tjvhospital.domain.Patient;
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -18,6 +20,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import javax.swing.text.html.Option;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Vector;
@@ -33,19 +37,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ContextConfiguration(initializers = { DoctorRepositoryTest.PropertiesInitializer.class })
 @Sql({ "classpath:create-script.sql" })
 @ActiveProfiles("dbtest")
+@Tag("integration")
 public class DoctorRepositoryTest extends AbstractPostgresContainerBaseTest {
 
     @Autowired
     private DoctorRepository doctorRepository;
+    @Autowired
+    private PatientRepository patientRepository;
 
     private Doctor doctor1;
     private Doctor doctor2;
+    private Patient patient1;
+    private Patient patient2;
 
     @BeforeEach
     public void createDoctors() {
         doctor1 = new Doctor(0L, "Tomáš", "tomas@hospital.cz", "111-111-111");
         doctor2 = new Doctor(1L, "Jirka", "jirka@hospital.cz", "222-222-222L");
-
+        patient1 = new Patient(0L, "Marek", LocalDate.of(1999, 9, 9), "marek@gmail.com", "333-333-333");
+        patient1 = new Patient(1L, "Honza", LocalDate.of(1990, 5, 11), "honza@gmail.com", "444-444-444");
     }
 
     @Test
@@ -109,6 +119,7 @@ public class DoctorRepositoryTest extends AbstractPostgresContainerBaseTest {
         assertTrue(deletedDoctor2.isEmpty());
     }
 
+    @Test
     public void updateDoctor() {
         doctorRepository.save(doctor1);
 
@@ -123,4 +134,11 @@ public class DoctorRepositoryTest extends AbstractPostgresContainerBaseTest {
         doctorRepository.deleteById(doctor1.getId());
     }
 
+    // doctor is the owner of the bidirectional mapping
+    // therefore we should be able to retrieve patient as well
+    @Test
+    public void saveDoctorWithPatient() {
+        // how do I give doctor his patient? :DD
+
+    }
 }

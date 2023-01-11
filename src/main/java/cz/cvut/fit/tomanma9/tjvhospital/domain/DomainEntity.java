@@ -1,6 +1,8 @@
 package cz.cvut.fit.tomanma9.tjvhospital.domain;
 
-public interface DomainEntity<ID> {
+import java.io.Serializable;
+
+public interface DomainEntity<ID> extends Serializable {
 
     ID getId();
 }

@@ -1,7 +1,6 @@
-package cz.cvut.fit.tomanma9.tjvhospital.api;
+package cz.cvut.fit.tomanma9.tjvhospital.api.controller;
 
 import cz.cvut.fit.tomanma9.tjvhospital.api.model.AppointmentDto;
-import cz.cvut.fit.tomanma9.tjvhospital.business.AbstractCrudService;
 import cz.cvut.fit.tomanma9.tjvhospital.business.AppointmentService;
 import cz.cvut.fit.tomanma9.tjvhospital.business.DoctorService;
 import cz.cvut.fit.tomanma9.tjvhospital.business.PatientService;
@@ -19,7 +18,7 @@ public class AppointmentController extends AbstractCrudController<Appointment, A
                     AppointmentDto dto = new AppointmentDto();
 
                     dto.setId(appointment.getId());
-                    dto.setPatient(appointment.getPacient().getId());
+                    dto.setPatient(appointment.getPatient().getId());
                     dto.setDoctor(appointment.getDoctor().getId());
                     dto.setFrom(appointment.getFrom());
                     dto.setTo(appointment.getTo());

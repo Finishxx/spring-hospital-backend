@@ -1,4 +1,4 @@
-package cz.cvut.fit.tomanma9.tjvhospital.api;
+package cz.cvut.fit.tomanma9.tjvhospital.api.controller;
 
 import cz.cvut.fit.tomanma9.tjvhospital.business.AbstractCrudService;
 import cz.cvut.fit.tomanma9.tjvhospital.domain.DomainEntity;
@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.stream.StreamSupport;
@@ -27,7 +29,11 @@ public abstract class AbstractCrudController<E extends DomainEntity<ID>, D, ID >
     @PostMapping
     // We receive Dto and we send out Dto, so we need to convert both
     public D create(@RequestBody D d) { // puts body of html request into e
-        return toDtoConverter.apply(service.create(toEntityConverter.apply(d)));
+        try {
+            return toDtoConverter.apply(service.create(toEntityConverter.apply(d)));
+        } catch (EntityExistsException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
+        }
     }
 
     @GetMapping
@@ -41,7 +47,7 @@ public abstract class AbstractCrudController<E extends DomainEntity<ID>, D, ID >
     @GetMapping( "/{id}")
     public D readOne(@PathVariable ID id) {
         try {
-            return toDtoConverter.apply(service.readById(id).get());
+            return toDtoConverter.apply(service.readById(id).get()); // get throws NoSuchElementException
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
@@ -49,11 +55,21 @@ public abstract class AbstractCrudController<E extends DomainEntity<ID>, D, ID >
 
     @PutMapping("/{id}")
     public void update(@RequestBody D d, @PathVariable ID id) {
-        service.update(toEntityConverter.apply(d));
+        try {
+            service.update(toEntityConverter.apply(d));
+        } catch (EntityNotFoundException | NoSuchElementException e ) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable ID id) {service.deleteById(id);}
+    public void delete(@PathVariable ID id) {
+        try {
+            service.deleteById(id);
+        } catch (EntityNotFoundException | NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
 
 
 }

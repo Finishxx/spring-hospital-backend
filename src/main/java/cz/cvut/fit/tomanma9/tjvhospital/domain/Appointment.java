@@ -12,10 +12,14 @@ public class Appointment implements DomainEntity<Long> {
     @Column(name = "id_appointment")
     private Long id;
     @ManyToOne
+    @JoinColumn(name = "id_patient")
     private Patient patient;
     @ManyToOne
+    @JoinColumn(name = "id_doctor")
     private Doctor doctor;
+    @Column(name = "time_from")
     private LocalDateTime from;
+    @Column(name = "time_to")
     private LocalDateTime to;
 
     public Appointment(Long id, Patient patient, Doctor doctor, LocalDateTime from, LocalDateTime to) {
@@ -32,8 +36,8 @@ public class Appointment implements DomainEntity<Long> {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public Patient getPacient() { return patient; }
-    public void setPacient(Patient patient) { this.patient = patient; }
+    public Patient getPatient() { return patient; }
+    public void setPatient(Patient patient) { this.patient = patient; }
 
     public Doctor getDoctor() { return doctor; }
     public void setDoctor(Doctor doctor) { this.doctor = doctor; }

@@ -4,23 +4,34 @@ services:
   postgres-server:
     build: src/postgres-server/
     container_name: postgres-server
+    privileged: true
     ports:
       - 5432:5432
     environment: # variables which postgres docker image uses later on
       - POSTGRES_DB:hospital
       - POSTGRES_USER:hospital
       - POSTGRES_PASSWORD:hospital # maybe not the best option security-wise
+    networks:
+      - powerNet
 
   hospital-backend:
     build: .
     container_name: hospital-backend
+    privileged: true
     environment:
-      - DB_SERVER=postgres_server # sets variable in shell(=), used in hospital-backend Dockerfile
+      - DB_SERVER=postgres_server # sets variable in shell(=), used in hospital-backend Dockerfile # that is a lie? :D
     ports:
       - 8080:8080
-    links:
-      - postgres-server # we depend on postgresql-server
+    depends_on:
+      - "postgres-server"
+    networks:
+      - powerNet
       
       # TODO: need to add networks and "links" does not do what I thought it did
-
+# inspiration from: https://stackoverflow.com/questions/55862431/how-to-communicate-between-two-containers-using-docker
+networks:
+  powerNet:
+    driver: bridge
+    ipam: # TODO: not sure why need to specify
+      driver: default
 # inspiration from: https://wkrzywiec.medium.com/how-to-run-database-backend-and-frontend-in-a-single-click-with-docker-compose-4bcda66f6de
