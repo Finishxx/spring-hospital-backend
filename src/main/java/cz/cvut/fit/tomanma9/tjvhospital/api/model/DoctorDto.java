@@ -11,9 +11,9 @@ public class DoctorDto {
     private String emailAddress;
     private String phoneNumber;
 
-    private Collection<Long> patients;
+    private Collection<InnerPatientDto> patients;
 
-    private Collection<Long> appointments;
+    private Collection<InnerAppointmentForDoctorDto> appointments;
 
     public Long getId() {
         return id;
@@ -47,19 +47,19 @@ public class DoctorDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public Collection<Long> getPatients() {
+    public Collection<InnerPatientDto> getPatients() {
         return patients;
     }
 
-    public void setPatients(Collection<Long> patients) {
+    public void setPatients(Collection<InnerPatientDto> patients) {
         this.patients = patients;
     }
 
-    public Collection<Long> getAppointments() {
+    public Collection<InnerAppointmentForDoctorDto> getAppointments() {
         return appointments;
     }
 
-    public void setAppointments(Collection<Long> appointments) {
+    public void setAppointments(Collection<InnerAppointmentForDoctorDto> appointments) {
         this.appointments = appointments;
     }
 }

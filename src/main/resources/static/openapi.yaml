@@ -7,6 +7,23 @@ servers:
   - url: 'http://localhost:8080'
 components:
   schemas:
+
+    InnerPatient:
+      type: object
+      properties:
+        patient_id:
+          type: integer
+        patient_name:
+          type: string
+
+    InnerDoctor:
+      type: object
+      properties:
+        doctor_id:
+          type: integer
+        doctor_name:
+          type: string
+
     Doctor:
       type: object
       properties:
@@ -18,29 +35,46 @@ components:
           type: string
         phoneNumber:
           type: string
+
         patients:
           type: array
           items:
-            type: number
+            $ref: '#/components/schemas/InnerPatient'
+
         appointments:
           type: array
           items:
-            type: number
+            type: object
+            properties:
+              appointment_id:
+                type: integer
+              patient_name:
+                type: string
+              patient_id:
+                type: integer
+              time_from:
+                type: string
+                format: date-time
+
     Appointment:
       type: object
       properties:
         id:
           type: number
+
         patient:
-          type: number
+          $ref: '#/components/schemas/InnerPatient'
+
         doctor:
-          type: number
+          $ref: '#/components/schemas/InnerDoctor'
+
         from:
           type: string
           format: date-time
         to:
           type: string
           format: date-time
+
     Patient:
       type: object
       properties:
@@ -55,19 +89,34 @@ components:
           type: string
         phoneNumber:
           type: string
+
         doctors:
           type: array
           items:
-            type: number
+            $ref: '#/components/schemas/InnerDoctor'
+
         appointments:
           type: array
           items:
-            type: number
+            type: object
+            properties:
+              appointment_id:
+                type: integer
+              doctor_name:
+                type: string
+              doctor_id:
+                type: integer
+              time_from:
+                type: string
+                format: date-time
+
 paths:
   /appointments:
     description: all appointments
     get:
       description: read all appointments
+      tags:
+        - Appointment
       responses:
         200:
           description: appointment returned successfully
@@ -79,6 +128,8 @@ paths:
                   $ref: '#/components/schemas/Appointment'
     post:
       description: add new appointment
+      tags:
+        - Appointment
       requestBody:
         description: data for new appointment
         required: true
@@ -108,6 +159,8 @@ paths:
     description: single appointment given by id
     get:
       description: read appointment
+      tags:
+        - Appointment
       responses:
         200:
           description: appointment read successfully
@@ -119,6 +172,15 @@ paths:
           description: appointment not found
     put:
       description: update appointment
+      tags:
+        - Appointment
+      requestBody:
+        description: data for updating appointment
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
       responses:
         200:
           description: appointment updated successfully
@@ -128,6 +190,8 @@ paths:
           description: invalid dates or non-existent doctor/patient
     delete:
       description: delete appointment
+      tags:
+        - Appointment
       responses:
         200:
           description: appointment deleted successfully
@@ -137,6 +201,8 @@ paths:
     description: all doctors
     get:
       description: read all doctors
+      tags:
+        - Doctor
       responses:
         200:
           description: doctors read successfully
@@ -148,6 +214,8 @@ paths:
                   $ref: '#/components/schemas/Doctor'
     post:
       description: add new doctor
+      tags:
+        - Doctor
       requestBody:
         description: data for new doctor
         required: true
@@ -175,6 +243,8 @@ paths:
     description: single doctor given by id
     get:
       description: read doctor
+      tags:
+        - Doctor
       responses:
         200:
           description: read all doctor successfully
@@ -186,6 +256,15 @@ paths:
           description: doctor not found
     put:
       description: update doctor
+      tags:
+        - Doctor
+      requestBody:
+        description: data for updating doctor
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Doctor'
       responses:
         200:
           description: doctor updated successfully
@@ -193,6 +272,8 @@ paths:
           description: doctor not found
     delete:
       description: delete appointment
+      tags:
+        - Doctor
       responses:
         200:
           description: doctor deleted successfully
@@ -202,6 +283,8 @@ paths:
     description: all patients
     get:
       description: read all patients
+      tags:
+        - Patient
       responses:
         200:
           description: read all patients successfully
@@ -213,6 +296,8 @@ paths:
                   $ref: '#/components/schemas/Patient'
     post:
       description: add new patient
+      tags:
+        - Patient
       requestBody:
         description: data for new patient
         required: true
@@ -240,6 +325,8 @@ paths:
     description: single patient given by id
     get:
       description: read patient
+      tags:
+        - Patient
       responses:
         200:
           description:
@@ -252,6 +339,15 @@ paths:
           description: patient not found
     put:
       description: update patient
+      tags:
+        - Patient
+      requestBody:
+        description: data for updating patient
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
       responses:
         200:
           description: patient updated successfully
@@ -259,12 +355,10 @@ paths:
           description: patient not found
     delete:
       description: delete patient
+      tags:
+        - Patient
       responses:
         200:
           description: patient deleted successfully
         404:
           description: patient not found
-
-
-
-  

@@ -13,6 +13,7 @@ import java.util.function.Function;
 public class PatientToEntityConverter implements Function<PatientDto, Patient> {
     @Override
     public Patient apply(PatientDto dto) {
+        // patient is not owning any relation
         return new Patient(dto.getId(), dto.getName(), dto.getBirthdate(), dto.getEmailAddress(), dto.getPhoneNumber());
 
     }

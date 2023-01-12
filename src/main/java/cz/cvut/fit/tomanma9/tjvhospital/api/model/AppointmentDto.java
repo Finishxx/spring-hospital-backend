@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 public class AppointmentDto {
 
     private Long id;
-    private Long patient;
-    private Long doctor;
+    private InnerPatientDto patient;
+    private InnerDoctorDto doctor;
     // https://www.baeldung.com/spring-boot-formatting-json-dates
     // format from https://stackoverflow.com/questions/4032967/json-date-to-java-date
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSX")
@@ -26,19 +26,19 @@ public class AppointmentDto {
         this.id = id;
     }
 
-    public Long getPatient() {
+    public InnerPatientDto getPatient() {
         return patient;
     }
 
-    public void setPatient(Long patient) {
+    public void setPatient(InnerPatientDto patient) {
         this.patient = patient;
     }
 
-    public Long getDoctor() {
+    public InnerDoctorDto getDoctor() {
         return doctor;
     }
 
-    public void setDoctor(Long doctor) {
+    public void setDoctor(InnerDoctorDto doctor) {
         this.doctor = doctor;
     }
 
@@ -57,4 +57,5 @@ public class AppointmentDto {
     public void setTo(LocalDateTime to) {
         this.to = to;
     }
+
 }

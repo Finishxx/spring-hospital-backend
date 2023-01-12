@@ -1,14 +1,13 @@
 package cz.cvut.fit.tomanma9.tjvhospital.api.model.converter;
 
 
-import cz.cvut.fit.tomanma9.tjvhospital.api.model.PatientDto;
+import cz.cvut.fit.tomanma9.tjvhospital.api.model.*;
 import cz.cvut.fit.tomanma9.tjvhospital.domain.Appointment;
 import cz.cvut.fit.tomanma9.tjvhospital.domain.Doctor;
 import cz.cvut.fit.tomanma9.tjvhospital.domain.Patient;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 // Functor of Patient -> PatientDto
 // where apply is like operator() in c++
@@ -26,10 +25,23 @@ public class PatientToDtoConverter implements Function<Patient, PatientDto> {
         dto.setBirthdate(patient.getBirthdate());
 
         dto.setAppointments(patient.getAppointments().stream()
-                .map(Appointment::getId)
+                .map((Appointment appointment) -> {
+                    InnerAppointmentForPatientDto innerAppointment = new InnerAppointmentForPatientDto();
+                    innerAppointment.setAppointment_id(appointment.getId());
+                    innerAppointment.setDoctor_id(appointment.getDoctor().getId());
+                    innerAppointment.setDoctor_name(appointment.getDoctor().getName());
+                    innerAppointment.setTime_from(appointment.getFrom());
+                    return innerAppointment;
+                })
                 .toList());
+
         dto.setDoctors(patient.getDoctors().stream()
-                .map(Doctor::getId)
+                .map((Doctor doctor) -> {
+                    InnerDoctorDto innerDoctorDto = new InnerDoctorDto();
+                    innerDoctorDto.setDoctor_id(doctor.getId());
+                    innerDoctorDto.setDoctor_name(doctor.getName());
+                    return innerDoctorDto;
+                })
                 .toList());
 
         return dto;
