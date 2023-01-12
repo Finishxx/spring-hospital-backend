@@ -3,17 +3,24 @@ package cz.cvut.fit.tomanma9.tjvhospital.api.model.converter;
 
 import cz.cvut.fit.tomanma9.tjvhospital.api.model.DoctorDto;
 import cz.cvut.fit.tomanma9.tjvhospital.api.model.InnerPatientDto;
+import cz.cvut.fit.tomanma9.tjvhospital.dao.PatientRepository;
 import cz.cvut.fit.tomanma9.tjvhospital.domain.Doctor;
 import cz.cvut.fit.tomanma9.tjvhospital.domain.Patient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.webjars.NotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 // Functor of DoctorDto -> Doctor
 // where apply is like operator() in c++
 @Component
 public class DoctorToEntityConverter implements Function<DoctorDto, Doctor> {
+
+    @Autowired
+    PatientRepository patientRepository;
 
     @Override
     public Doctor apply(DoctorDto doctorDto) {
@@ -22,9 +29,10 @@ public class DoctorToEntityConverter implements Function<DoctorDto, Doctor> {
         List<Long> patientIds = doctorDto.getPatients().stream()
                                     .map(InnerPatientDto::getPatient_id).toList();
         for (Long patientId : patientIds) {
-            Patient addedPatient = new Patient();
-            addedPatient.setId(patientId);
-            doctor.addPatient(addedPatient); // hope this is enough
+            Optional<Patient> addedPatient = patientRepository.findById(patientId);
+            if (addedPatient.isEmpty())
+                throw new NotFoundException("Could not found patient with given ID");
+            doctor.addPatient(addedPatient.get());
         }
         return doctor;
     }

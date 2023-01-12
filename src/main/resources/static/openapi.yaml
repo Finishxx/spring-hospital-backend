@@ -7,6 +7,11 @@ servers:
   - url: 'http://localhost:8080'
 components:
   schemas:
+#    Time:
+#      type: string
+#      #@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+#      #unfortunate there is no checking, but not gonna RE this one
+#      pattern: '\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}'
 
     InnerPatient:
       type: object
@@ -55,7 +60,6 @@ components:
               time_from:
                 type: string
                 format: date-time
-
     Appointment:
       type: object
       properties:
@@ -146,8 +150,8 @@ paths:
                 $ref: '#/components/schemas/Appointment'
         409:
           description: duplicate appointment
-        400:
-          description: invalid dates or non-existent doctor or patient
+        404:
+          description: could not found doctor/patient with given ID
   /appointments/{id}:
     parameters:
       - name : id
@@ -186,8 +190,6 @@ paths:
           description: appointment updated successfully
         404:
           description: appointment not found
-        400:
-          description: invalid dates or non-existent doctor/patient
     delete:
       description: delete appointment
       tags:

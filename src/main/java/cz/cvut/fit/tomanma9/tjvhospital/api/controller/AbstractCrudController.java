@@ -33,6 +33,8 @@ public abstract class AbstractCrudController<E extends DomainEntity<ID>, D, ID >
             return toDtoConverter.apply(service.create(toEntityConverter.apply(d)));
         } catch (EntityExistsException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
