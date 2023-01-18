@@ -8,7 +8,7 @@ public class InnerAppointmentForPatientDto {
     public Long appointment_id;
     public String doctor_name;
     public Long doctor_id;
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSX")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     public LocalDateTime time_from;
 
     public Long getAppointment_id() {

@@ -19,7 +19,7 @@ public class Doctor implements DomainEntity<Long> {
             inverseJoinColumns = @JoinColumn(name = "id_doctor")
     )
     private final Set<Patient> patients = new HashSet<>();
-    @OneToMany
+    @OneToMany(mappedBy = "doctor")
     private final Set<Appointment> appointments = new HashSet<>();
 
     public Doctor(Long id, String name, String emailAddress, String phoneNumber) {

@@ -31,7 +31,7 @@ public class DoctorToEntityConverter implements Function<DoctorDto, Doctor> {
         for (Long patientId : patientIds) {
             Optional<Patient> addedPatient = patientRepository.findById(patientId);
             if (addedPatient.isEmpty())
-                throw new NotFoundException("Could not found patient with given ID");
+                throw new NotFoundException("Could not find patient with given ID");
             doctor.addPatient(addedPatient.get());
         }
         return doctor;

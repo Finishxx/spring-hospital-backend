@@ -4,7 +4,9 @@ import cz.cvut.fit.tomanma9.tjvhospital.business.AbstractCrudService;
 import cz.cvut.fit.tomanma9.tjvhospital.domain.DomainEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
+import org.webjars.NotFoundException;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
@@ -36,6 +38,7 @@ public abstract class AbstractCrudController<E extends DomainEntity<ID>, D, ID >
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+
     }
 
     @GetMapping
