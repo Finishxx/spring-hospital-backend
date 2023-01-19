@@ -12,6 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -128,7 +129,18 @@ public class DoctorRepositoryIntegrationTest extends AbstractPostgresContainerBa
     // therefore we should be able to retrieve patient as well
     @Test
     public void saveDoctorWithPatient() {
-        // how do I give doctor his patient? :DD
+        doctor1.addPatient(patient1);
+
+        doctorRepository.save(doctor1);
+
+        Optional<Doctor> foundDoctor = doctorRepository.findById(doctor1.getId());
+
+        assertTrue(foundDoctor.isPresent());
+        assertEquals(foundDoctor.get(), doctor1);
+
+        assertEquals(foundDoctor.get().getPatients().size(), 1);
+        assertTrue(patientRepository.findById(patient1.getId()).isPresent());
+
 
     }
 }
