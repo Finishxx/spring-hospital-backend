@@ -22,13 +22,13 @@ public class AppointmentController extends AbstractCrudController<Appointment, A
                     dto.setId(appointment.getId());
 
                     InnerDoctorDto innerDoctorDto = new InnerDoctorDto();
-                    innerDoctorDto.doctor_id = appointment.getDoctor().getId();
-                    innerDoctorDto.doctor_name = appointment.getDoctor().getName();
+                    innerDoctorDto.setDoctor_id(appointment.getDoctor().getId());
+                    innerDoctorDto.setDoctor_name(appointment.getDoctor().getName());
                     dto.setDoctor(innerDoctorDto);
 
                     InnerPatientDto innerPatientDto = new InnerPatientDto();
-                    innerPatientDto.patient_id = appointment.getPatient().getId();
-                    innerPatientDto.patient_name = appointment.getPatient().getName();
+                    innerPatientDto.setPatient_id(appointment.getPatient().getId());
+                    innerPatientDto.setPatient_name(appointment.getPatient().getName());
                     dto.setPatient(innerPatientDto);
                     dto.setFrom(appointment.getFrom());
                     dto.setTo(appointment.getTo());

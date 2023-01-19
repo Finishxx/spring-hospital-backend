@@ -15,7 +15,6 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 // basic CRUD test
 @DataJpaTest
 @AutoConfigureTestDatabase( replace = AutoConfigureTestDatabase.Replace.NONE )
-@ContextConfiguration(initializers = { DoctorRepositoryTest.PropertiesInitializer.class })
+@ContextConfiguration(initializers = { DoctorRepositoryIntegrationTest.PropertiesInitializer.class })
 @Sql({ "classpath:create-script.sql" })
 @ActiveProfiles("dbtest")
 @Tag("integration")
@@ -59,7 +58,6 @@ public class AppointmentRepositoryTest extends AbstractPostgresContainerBaseTest
         appointment2 = new Appointment(1L, patient2, doctor1, LocalDateTime.of(2000, 1, 1, 12, 30), LocalDateTime.of(2000, 1, 1, 13, 0));
         appointment3 = new Appointment(2L, patient1, doctor2, LocalDateTime.of(2000, 2, 1, 12, 0), LocalDateTime.of(2000, 2, 1, 12, 30));
         appointment4 = new Appointment(3L, patient2, doctor2, LocalDateTime.of(2000, 2, 1, 12, 30), LocalDateTime.of(2000, 2, 1, 13, 0));
-
     }
 
     @Test

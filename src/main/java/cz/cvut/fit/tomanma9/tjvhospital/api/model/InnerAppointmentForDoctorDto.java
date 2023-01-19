@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
 public class InnerAppointmentForDoctorDto {
-    public Long appointment_id;
-    public String patient_name;
-    public Long patient_id;
+    private Long appointment_id;
+    private String patient_name;
+    private Long patient_id;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    public LocalDateTime time_from;
+    private LocalDateTime time_from;
 
     public Long getAppointment_id() {
         return appointment_id;

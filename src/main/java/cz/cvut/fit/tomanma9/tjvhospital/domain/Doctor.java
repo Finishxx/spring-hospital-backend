@@ -12,11 +12,12 @@ public class Doctor implements DomainEntity<Long> {
     private String name;
     private String emailAddress;
     private String phoneNumber;
+    // it was opposite the whole time? XDD
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "doctor_patient", // When name is last it does not work... ORDER MATTERS? EXCUSE ME???
-            joinColumns = @JoinColumn(name = "id_patient"),
-            inverseJoinColumns = @JoinColumn(name = "id_doctor")
+            joinColumns = @JoinColumn(name = "id_doctor"),
+            inverseJoinColumns = @JoinColumn(name = "id_patient")
     )
     private final Set<Patient> patients = new HashSet<>();
     @OneToMany(mappedBy = "doctor")
