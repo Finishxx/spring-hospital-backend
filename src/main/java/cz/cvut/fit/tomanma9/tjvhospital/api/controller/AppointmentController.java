@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/appointments")
 public class AppointmentController extends AbstractCrudController<Appointment, AppointmentDto, Long> {
     public AppointmentController(AppointmentService service, PatientService patientService, DoctorService doctorService) {
-        super(
+        super( // imho the class system is better, but we tried
                 service,
                 appointment -> {
                     AppointmentDto dto = new AppointmentDto();

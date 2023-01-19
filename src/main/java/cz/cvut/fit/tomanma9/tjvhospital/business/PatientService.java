@@ -5,7 +5,7 @@ import cz.cvut.fit.tomanma9.tjvhospital.domain.Patient;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PatientService extends AbstractCrudService<Patient, Long> {
+public class PatientService extends AbstractLongIdCrudService<Patient> {
 
     // automatically creates and manages appropriate repository bcs of name
     public PatientService(PatientRepository repository) {

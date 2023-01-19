@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DoctorService extends AbstractCrudService<Doctor, Long> {
+public class DoctorService extends AbstractLongIdCrudService<Doctor> {
 
     AppointmentService appointmentService;
 

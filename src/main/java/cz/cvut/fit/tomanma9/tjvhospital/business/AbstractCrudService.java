@@ -15,7 +15,7 @@ public abstract class AbstractCrudService <T extends DomainEntity<K>, K> {
     protected AbstractCrudService(CrudRepository<T,K> repository) {this.repository = repository; }
 
     public T create(T entity) {
-        if (repository.existsById(entity.getId()))
+        if (entity.getId() != null && repository.existsById(entity.getId()))
             throw new EntityExistsException();
         return repository.save(entity);
     }
@@ -36,7 +36,7 @@ public abstract class AbstractCrudService <T extends DomainEntity<K>, K> {
             repository.deleteById(id);
     }
 
-        public void deleteAllyById(Collection<K> keys) { repository.deleteAllById(keys); }
+    public void deleteAllyById(Collection<K> keys) { repository.deleteAllById(keys); }
 
 
 }
