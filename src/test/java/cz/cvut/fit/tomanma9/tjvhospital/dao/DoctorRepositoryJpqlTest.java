@@ -7,7 +7,6 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -18,11 +17,11 @@ import java.time.LocalDateTime;
 
 @DataJpaTest
 @AutoConfigureTestDatabase( replace = AutoConfigureTestDatabase.Replace.NONE )
-@ContextConfiguration(initializers = { DoctorRepositoryTest.PropertiesInitializer.class })
+@ContextConfiguration(initializers = { DoctorRepositoryJpqlTest.PropertiesInitializer.class })
 @Sql({ "classpath:create-script.sql" })
 @ActiveProfiles("dbtest")
 @Tag("Jpql")
-class DoctorRepositoryTest extends AbstractPostgresContainerBaseTest {
+class DoctorRepositoryJpqlTest extends AbstractPostgresContainerBaseTest {
     // not necessarily integration test, but might as well use
     // TestContainers for JPQL testing as well and reuse stuff
 
