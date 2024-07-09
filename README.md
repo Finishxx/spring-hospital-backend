@@ -1,6 +1,6 @@
 # TJV Hospital
 
-This Spring Boot application exposes REST API in the hospital domain to this Spring web server [here](https://github.com/Finishxx/tjv-hospital-frontend).
+This Spring Boot application saves entities into DB and exposes REST API of them to this Spring web server [here](https://github.com/Finishxx/tjv-hospital-frontend). Made as a [FIT CTU](https://fit.cvut.cz/cs) semestral work for BI-TJV class. The entities are in the hospital domain.
 
 ## Domain
 
