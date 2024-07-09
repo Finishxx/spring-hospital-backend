@@ -1,21 +1,32 @@
-# tjv-hospital
+# TJV Hospital
 
-Hospital internal system for booking pacients with their doctors. A patient can only be booked to his own doctor only if the doctor is free at that time.
+This Spring Boot application exposes REST API in the hospital domain to this Spring web server [here](https://github.com/Finishxx/tjv-hospital-frontend).
 
-## Schema
+## Domain
+
+Hospital internal system for booking patients with their doctors.
+A patient can only be booked to his own doctor only if the doctor is free at that time.
+
+### ER Schema
 
 ![relational schema](/schema.png)
 
-## Business
+## Architecture & technology
 
-Schedule an appointment
+Clean architecture with three layers: Persistence, Business and Presentation
 
-Cancel an appointment
+### Data
 
-Cancel all appointments in a given doctor's day
+ORM using Spring Data JPA. Postgres DB in memory.
 
-## Complex query
+### Business logic
 
-Show dates when doctor has at least one appointment
+Implemented using Service classes:
+- Create, Read, Update, Delete operations on all entities.
+- Schedule an appointment
+- Cancel an appointment
+- Cancel all appointments in a given doctor's day
 
+### Presentation
 
+Controller for each domain entity exposing REST API with OpenAPI documentation [here](src/main/resources/static/openapi.yaml).
