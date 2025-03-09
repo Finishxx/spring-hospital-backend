@@ -30,3 +30,7 @@ Implemented using Service classes:
 ### Presentation
 
 Controller for each domain entity exposing REST API with OpenAPI documentation [here](src/main/resources/static/openapi.yaml).
+
+### Tests
+
+Very lame use of Testcontainers library
